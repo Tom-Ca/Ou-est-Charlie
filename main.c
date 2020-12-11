@@ -126,20 +126,47 @@ int main(int argc, char** argv)
     {
             int n = rand ()%4;
             if (n==0)
-                dest_rect2.x++;
+            {
+                do
+                {
+                    dest_rect2.x++;
+                    tempsPrecedent = tempsActuel;
+                }while (dest_rect2.x > 466);
+            }
+
             if (n==1)
-                dest_rect2.y++;
+            {
+                do
+                {
+                    dest_rect2.x--;
+                    tempsPrecedent = tempsActuel;
+                }while (dest_rect2.x < 0);
+            }
+
             if (n==2)
-                dest_rect2.x--;
+            {
+                do
+                {
+                    dest_rect2.y++;
+                    tempsPrecedent = tempsActuel;
+                }while (dest_rect2.y > 320);
+            }
+
             if (n==3)
-                dest_rect2.y--;
+            {
+                do
+                {
+                    dest_rect2.y--;
+                    tempsPrecedent = tempsActuel;
+                }while (dest_rect2.y < 0);
+            }
             tempsPrecedent = tempsActuel;
 
-        if(dest_rect2.x == 512 || dest_rect2.y == 384 || dest_rect2.x == -47 || dest_rect2.y == 50)
+        /*if(dest_rect2.x == 512 || dest_rect2.y == 384 || dest_rect2.x == -47 || dest_rect2.y == 50)
         {
             dest_rect2.x = -46;
             dest_rect2.y = rand() % 301 +50;
-        }
+        }*/
 
     }
     else /* Si ça fait moins de 30 ms depuis le dernier tour de boucle, on endort le programme le temps qu'il faut */
