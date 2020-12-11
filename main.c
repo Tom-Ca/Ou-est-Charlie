@@ -124,13 +124,21 @@ int main(int argc, char** argv)
     tempsActuel = SDL_GetTicks();
     if (tempsActuel - tempsPrecedent > 1) /* Si 30 ms se sont écoulées depuis le dernier tour de boucle */
     {
-            dest_rect2.x++;
+            int n = rand ()%4;
+            if (n==0)
+                dest_rect2.x++;
+            if (n==1)
+                dest_rect2.y++;
+            if (n==2)
+                dest_rect2.x--;
+            if (n==3)
+                dest_rect2.y--;
             tempsPrecedent = tempsActuel;
 
-        if(dest_rect2.x == 512)
+        if(dest_rect2.x == 512 || dest_rect2.y == 384 || dest_rect2.x == -47 || dest_rect2.y == 50)
         {
             dest_rect2.x = -46;
-            dest_rect2.y = rand() % 301;
+            dest_rect2.y = rand() % 301 +50;
         }
 
     }
