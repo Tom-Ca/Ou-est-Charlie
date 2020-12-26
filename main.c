@@ -32,6 +32,16 @@ int main(int argc, char** argv)
     SDL_Rect dest_rect2 = {0, 50, 46, 64};
     int tempsPrecedent = 0, tempsActuel = 0;
     srand( time( NULL ) );
+    int haut_gauche = 0;
+    int haut_droite = 0;
+    int bas_gauche = 0;
+    int bas_droite = 0;
+    int x_max = dest_rect.w - dest_rect2.w;
+    int y_max = dest_rect.h - dest_rect2.h + 50;
+    int x_mid = x_max/2;
+    int y_mid = y_max/2;
+
+
 
 
     /* Initialisation simple */
@@ -42,7 +52,7 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    window = SDL_CreateWindow("affichage de fond",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 512, 424, 0);
+    window = SDL_CreateWindow("affichage de fond",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dest_rect.w, dest_rect.h + 50, 0);
     if(window == NULL)
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
@@ -124,50 +134,63 @@ int main(int argc, char** argv)
     tempsActuel = SDL_GetTicks();
     if (tempsActuel - tempsPrecedent > 1) /* Si 30 ms se sont écoulées depuis le dernier tour de boucle */
     {
-            int n = rand ()%4;
-            if (n==0)
-            {
-                do
-                {
-                    dest_rect2.x++;
-                    tempsPrecedent = tempsActuel;
-                }while (dest_rect2.x > 466);
-            }
 
-            if (n==1)
-            {
-                do
-                {
-                    dest_rect2.x--;
-                    tempsPrecedent = tempsActuel;
-                }while (dest_rect2.x < 0);
-            }
-
-            if (n==2)
-            {
-                do
-                {
-                    dest_rect2.y++;
-                    tempsPrecedent = tempsActuel;
-                }while (dest_rect2.y > 320);
-            }
-
-            if (n==3)
-            {
-                do
-                {
-                    dest_rect2.y--;
-                    tempsPrecedent = tempsActuel;
-                }while (dest_rect2.y < 0);
-            }
-            tempsPrecedent = tempsActuel;
-
-        /*if(dest_rect2.x == 512 || dest_rect2.y == 384 || dest_rect2.x == -47 || dest_rect2.y == 50)
+        if((dest_rect2.x <= 0 && dest_rect2.y <= y_mid && dest_rect2.y >= 50) || (dest_rect2.y <= 50 && dest_rect2.x <= x_mid && dest_rect2.x >= 0))
         {
-            dest_rect2.x = -46;
-            dest_rect2.y = rand() % 301 +50;
-        }*/
+            haut_droite = 0;
+            bas_droite = 0;
+            bas_gauche = 0;
+            haut_gauche=1;
+        }
 
+        else if((dest_rect2.x <= 0 && dest_rect2.y <= y_max && dest_rect2.y >= y_mid) || (dest_rect2.y >= y_max && dest_rect2.x <= x_mid && dest_rect2.x >= 0))
+        {
+            haut_droite = 0;
+            haut_gauche = 0;
+            bas_droite = 0;
+            bas_gauche = 1;
+        }
+
+        else if((dest_rect2.x >= x_max && dest_rect2.y <= y_max && dest_rect2.y >= y_mid) || (dest_rect2.y >= y_max && dest_rect2.x <= x_max && dest_rect2.x >= x_mid))
+        {
+            haut_droite = 0;
+            haut_gauche=0;
+            bas_gauche = 0;
+            bas_droite = 1;
+        }
+
+        else if((dest_rect2.x >= x_max && dest_rect2.y <= y_mid && dest_rect2.y >= 50) || (dest_rect2.y <= 50 && dest_rect2.x <= x_max && dest_rect2.x >= x_mid))
+        {
+            bas_droite = 0;
+            bas_gauche = 0;
+            haut_gauche=0;
+            haut_droite = 1;
+        }
+        /////
+        if(haut_gauche == 1)
+            {
+                dest_rect2.x = dest_rect2.x + 1 ;
+                dest_rect2.y = dest_rect2.y + 2 ;
+                tempsPrecedent = tempsActuel;
+            }
+        if(bas_gauche == 1)
+            {
+                dest_rect2.x = dest_rect2.x + 2 ;
+                dest_rect2.y = dest_rect2.y - 1 ;
+                tempsPrecedent = tempsActuel;
+            }
+        if(bas_droite == 1)
+            {
+                dest_rect2.x = dest_rect2.x - 1 ;
+                dest_rect2.y = dest_rect2.y - 3 ;
+                tempsPrecedent = tempsActuel;
+            }
+        if(haut_droite == 1)
+            {
+                dest_rect2.x = dest_rect2.x - 1 ;
+                dest_rect2.y = dest_rect2.y + 2 ;
+                tempsPrecedent = tempsActuel;
+            }
     }
     else /* Si ça fait moins de 30 ms depuis le dernier tour de boucle, on endort le programme le temps qu'il faut */
     {
