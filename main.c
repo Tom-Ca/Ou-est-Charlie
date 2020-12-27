@@ -1,54 +1,30 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <time.h>
 
-void clean_resources(SDL_Window *w, SDL_Renderer *r, SDL_Texture *t)
-{
-    if(t != NULL)
-        SDL_DestroyTexture(t);
+#include "constantes.h"
+#include "jeu.h"
 
-    if(r != NULL)
-        SDL_DestroyRenderer(r);
 
-    if(w != NULL)
-        SDL_DestroyWindow(w);
-    SDL_Quit();
-}
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 
     SDL_Event event;
     int continuer = 1;
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
-    SDL_Surface *picture =NULL;
-    SDL_Texture *texture = NULL, *texture2 = NULL;
+    SDL_Surface *picture = NULL;
+    SDL_Texture *texture_menu = NULL;
     SDL_Rect dest_rect = {0, 50, 512, 384};
-    SDL_Rect dest_rect2 = {0, 50, 46, 64};
-    int tempsPrecedent = 0, tempsActuel = 0;
-    srand( time( NULL ) );
-    int haut_gauche = 0;
-    int haut_droite = 0;
-    int bas_gauche = 0;
-    int bas_droite = 0;
-    int x_max = dest_rect.w - dest_rect2.w;
-    int y_max = dest_rect.h - dest_rect2.h + 50;
-    int x_mid = x_max/2;
-    int y_mid = y_max/2;
 
 
-
-
-    /* Initialisation simple */
     if (SDL_Init(SDL_INIT_VIDEO) != 0 )
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(NULL, NULL, NULL);
+        clean_resources(NULL, NULL, NULL, NULL);
         exit(EXIT_FAILURE);
     }
 
@@ -56,7 +32,7 @@ int main(int argc, char** argv)
     if(window == NULL)
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(NULL, NULL, NULL);
+        clean_resources(NULL, NULL, NULL, NULL);
         exit(EXIT_FAILURE);
     }
 
@@ -64,158 +40,71 @@ int main(int argc, char** argv)
     if(renderer == NULL)
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, NULL, NULL);
+        clean_resources(window, NULL, NULL, NULL);
+        exit(EXIT_FAILURE);
+    }
+
+        picture = IMG_Load("img/menu.jpg");
+    if(picture == NULL)
+    {
+        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
+        clean_resources(window, renderer, NULL, NULL);
+        exit(EXIT_FAILURE);
+    }
+
+    texture_menu = SDL_CreateTextureFromSurface(renderer, picture);
+    SDL_FreeSurface(picture);
+    if(texture_menu == NULL)
+    {
+        fprintf(stdout,
+                "5Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
+        clean_resources(window, renderer, NULL, NULL);
         exit(EXIT_FAILURE);
     }
 
     while (continuer)
     {
-        SDL_PollEvent(&event); /* On utilise PollEvent et non WaitEvent pour ne pas bloquer le programme */
+        SDL_WaitEvent(&event);
         switch(event.type)
         {
             case SDL_QUIT:
                 continuer = 0;
                 break;
+            case SDL_KEYDOWN:
+                switch(event.key.keysym.sym)
+                {
+                    case SDLK_ESCAPE: // Veut arrêter le jeu
+                        continuer = 0;
+                        break;
+                    case SDLK_1: // Demande à jouer
+                        jouer(window, renderer);
+                        break;
+                    //case SDLK_KP2: // Demande l'éditeur de niveaux
+                       // editeur(ecran);
+                       // break;
+                }
+                break;
         }
+    ////
 
-
-
-
-    picture = IMG_Load("img/imageBMP.png");
-    if(picture == NULL)
+        if(SDL_QueryTexture(texture_menu, NULL, NULL, &dest_rect.w, &dest_rect.h) != 0)
     {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, NULL);
+        fprintf(stdout,"4Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
+        clean_resources(window, renderer, texture_menu, NULL);
         exit(EXIT_FAILURE);
     }
 
-    texture = SDL_CreateTextureFromSurface(renderer, picture);
-    SDL_FreeSurface(picture);
-    if(texture == NULL)
+    if(SDL_RenderCopy(renderer,texture_menu,NULL,&dest_rect) != 0)
     {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, NULL);
+        fprintf(stdout,"3Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
+        clean_resources(window, renderer, texture_menu, NULL);
         exit(EXIT_FAILURE);
     }
 
-        if(SDL_QueryTexture(texture, NULL, NULL, &dest_rect.w, &dest_rect.h) != 0)
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, texture);
-        exit(EXIT_FAILURE);
-    }
 
-    if(SDL_RenderCopy(renderer,texture,NULL,&dest_rect) != 0)
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, texture);
-        exit(EXIT_FAILURE);
-    }
-
-    ////////////////////////////////////////////////////
-
-    picture = IMG_Load("img/charlie6.png");
-    if(picture == NULL)
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, NULL);
-        exit(EXIT_FAILURE);
-    }
-
-    texture2 =SDL_CreateTextureFromSurface(renderer, picture);
-    SDL_FreeSurface(picture);
-    if(texture == NULL)
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, NULL);
-        exit(EXIT_FAILURE);
-    }
-
-    tempsActuel = SDL_GetTicks();
-    if (tempsActuel - tempsPrecedent > 1) /* Si 30 ms se sont écoulées depuis le dernier tour de boucle */
-    {
-
-        if((dest_rect2.x <= 0 && dest_rect2.y <= y_mid && dest_rect2.y >= 50) || (dest_rect2.y <= 50 && dest_rect2.x <= x_mid && dest_rect2.x >= 0))
-        {
-            haut_droite = 0;
-            bas_droite = 0;
-            bas_gauche = 0;
-            haut_gauche=1;
-        }
-
-        else if((dest_rect2.x <= 0 && dest_rect2.y <= y_max && dest_rect2.y >= y_mid) || (dest_rect2.y >= y_max && dest_rect2.x <= x_mid && dest_rect2.x >= 0))
-        {
-            haut_droite = 0;
-            haut_gauche = 0;
-            bas_droite = 0;
-            bas_gauche = 1;
-        }
-
-        else if((dest_rect2.x >= x_max && dest_rect2.y <= y_max && dest_rect2.y >= y_mid) || (dest_rect2.y >= y_max && dest_rect2.x <= x_max && dest_rect2.x >= x_mid))
-        {
-            haut_droite = 0;
-            haut_gauche=0;
-            bas_gauche = 0;
-            bas_droite = 1;
-        }
-
-        else if((dest_rect2.x >= x_max && dest_rect2.y <= y_mid && dest_rect2.y >= 50) || (dest_rect2.y <= 50 && dest_rect2.x <= x_max && dest_rect2.x >= x_mid))
-        {
-            bas_droite = 0;
-            bas_gauche = 0;
-            haut_gauche=0;
-            haut_droite = 1;
-        }
-        /////
-        if(haut_gauche == 1)
-            {
-                dest_rect2.x = dest_rect2.x + 1 ;
-                dest_rect2.y = dest_rect2.y + 2 ;
-                tempsPrecedent = tempsActuel;
-            }
-        if(bas_gauche == 1)
-            {
-                dest_rect2.x = dest_rect2.x + 2 ;
-                dest_rect2.y = dest_rect2.y - 1 ;
-                tempsPrecedent = tempsActuel;
-            }
-        if(bas_droite == 1)
-            {
-                dest_rect2.x = dest_rect2.x - 1 ;
-                dest_rect2.y = dest_rect2.y - 3 ;
-                tempsPrecedent = tempsActuel;
-            }
-        if(haut_droite == 1)
-            {
-                dest_rect2.x = dest_rect2.x - 1 ;
-                dest_rect2.y = dest_rect2.y + 2 ;
-                tempsPrecedent = tempsActuel;
-            }
-    }
-    else /* Si ça fait moins de 30 ms depuis le dernier tour de boucle, on endort le programme le temps qu'il faut */
-    {
-        SDL_Delay(30 - (tempsActuel - tempsPrecedent));
-    }
-
-    if(SDL_QueryTexture(texture2, NULL, NULL, &dest_rect2.w, &dest_rect2.h) != 0)
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, texture);
-        exit(EXIT_FAILURE);
-    }
-
-    if(SDL_RenderCopy(renderer,texture2,NULL,&dest_rect2) != 0)
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, texture);
-        exit(EXIT_FAILURE);
-    }
-
-    //////////////////////////////////////////////////
     SDL_RenderPresent(renderer);
-
     }
 
-    clean_resources(window, renderer, texture);
+    clean_resources(window, renderer, texture_menu, NULL);
     return EXIT_SUCCESS;
 }

@@ -368,7 +368,16 @@
 	"begin_code.h"
 	"close_code.h"
 
-1609007320 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\main.c
+1609080091 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\main.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	"constantes.h"
+	"jeu.h"
+
+1609080411 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\jeu.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -376,4 +385,10 @@
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 	<time.h>
+	"constantes.h"
+	"jeu.h"
+
+1609021605 c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\constantes.h
+
+1609078118 c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\jeu.h
 

@@ -41,6 +41,11 @@
 			<Add library="C:/Program Files (x86)/CodeBlocks/SDL2-2.0.12/i686-w64-mingw32/lib/libSDL2_image.a" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/SDL2-2.0.12/i686-w64-mingw32/lib" />
 		</Linker>
+		<Unit filename="constantes.h" />
+		<Unit filename="jeu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="jeu.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
