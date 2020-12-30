@@ -9,6 +9,7 @@
 
 #include "constantes.h"
 #include "jeu.h"
+#include "menu.h"
 
 void clean_resources(SDL_Window *w, SDL_Renderer *r, SDL_Texture *t, SDL_Texture *t2){
     if(t != NULL)
@@ -25,7 +26,9 @@ void clean_resources(SDL_Window *w, SDL_Renderer *r, SDL_Texture *t, SDL_Texture
     SDL_Quit();
 }
 
-void jouer(SDL_Window* window, SDL_Renderer* renderer)
+
+
+void jouer(SDL_Window* window, SDL_Renderer* renderer, char *img_fond, char *img_GoodChatlie, char *img_BadChatlie, int *nb_Charlie, int *speed_charlie )
 {
 //variables
     SDL_Event event;
@@ -48,7 +51,7 @@ void jouer(SDL_Window* window, SDL_Renderer* renderer)
     int random_vall_y;
 
 //image de fond
-    picture = IMG_Load("img/imageBMP.png");
+    picture = IMG_Load(img_fond);
     if(picture == NULL)
     {
         fprintf(stdout,"6Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
@@ -67,7 +70,7 @@ void jouer(SDL_Window* window, SDL_Renderer* renderer)
     }
 
 //image de charlie
-    picture = IMG_Load("img/charlie6.png");
+    picture = IMG_Load(img_GoodChatlie);
     if(picture == NULL)
     {
         fprintf(stdout,"2Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
@@ -87,12 +90,15 @@ void jouer(SDL_Window* window, SDL_Renderer* renderer)
 //boucle
     while (continuer)
     {
+
         SDL_PollEvent(&event);
         switch(event.type)
         {
             case SDL_QUIT:
                 continuer = 0;
                 break;
+
+
         }
 
 //image de fond
@@ -112,95 +118,98 @@ void jouer(SDL_Window* window, SDL_Renderer* renderer)
 
 //image de charlie
     tempsActuel = SDL_GetTicks();
-    if (tempsActuel - tempsPrecedent > 1) /* Si 30 ms se sont écoulées depuis le dernier tour de boucle */
-    {
 
-        if((dest_rect2.x <= 0 && dest_rect2.y <= y_mid && dest_rect2.y >= 50) || (dest_rect2.y <= 50 && dest_rect2.x <= x_mid && dest_rect2.x >= 0))
+
+        if (tempsActuel - tempsPrecedent > speed_charlie) /* Si 30 ms se sont écoulées depuis le dernier tour de boucle */
         {
-            haut_droite = 0;
-            bas_droite = 0;
-            bas_gauche = 0;
-            haut_gauche=1;
-            random_vall_x = rand ()%2;
-            random_vall_y = rand ()%2 + 1;
+
+            if((dest_rect2.x <= 0 && dest_rect2.y <= y_mid && dest_rect2.y >= 50) || (dest_rect2.y <= 50 && dest_rect2.x <= x_mid && dest_rect2.x >= 0))
+            {
+                haut_droite = 0;
+                bas_droite = 0;
+                bas_gauche = 0;
+                haut_gauche=1;
+                random_vall_x = rand ()%2;
+                random_vall_y = rand ()%2 + 1;
+            }
+
+            else if((dest_rect2.x <= 0 && dest_rect2.y <= y_max && dest_rect2.y >= y_mid) || (dest_rect2.y >= y_max && dest_rect2.x <= x_mid && dest_rect2.x >= 0))
+            {
+                haut_droite = 0;
+                haut_gauche = 0;
+                bas_droite = 0;
+                bas_gauche = 1;
+                random_vall_x = rand ()%2;
+                random_vall_y = rand ()%2 + 1;
+            }
+
+            else if((dest_rect2.x >= x_max && dest_rect2.y <= y_max && dest_rect2.y >= y_mid) || (dest_rect2.y >= y_max && dest_rect2.x <= x_max && dest_rect2.x >= x_mid))
+            {
+                haut_droite = 0;
+                haut_gauche=0;
+                bas_gauche = 0;
+                bas_droite = 1;
+                random_vall_x = rand ()%2;
+                random_vall_y = rand ()%2 + 1;
+            }
+
+            else if((dest_rect2.x >= x_max && dest_rect2.y <= y_mid && dest_rect2.y >= 50) || (dest_rect2.y <= 50 && dest_rect2.x <= x_max && dest_rect2.x >= x_mid))
+            {
+                bas_droite = 0;
+                bas_gauche = 0;
+                haut_gauche=0;
+                haut_droite = 1;
+                random_vall_x = rand ()%2;
+                random_vall_y = rand ()%2 + 1;
+            }
+            /////
+            if(haut_gauche == 1)
+                {
+                    dest_rect2.x = dest_rect2.x + random_vall_x ;
+                    dest_rect2.y = dest_rect2.y + random_vall_y ;
+                    tempsPrecedent = tempsActuel;
+                }
+            if(bas_gauche == 1)
+                {
+                    dest_rect2.x = dest_rect2.x + random_vall_x ;
+                    dest_rect2.y = dest_rect2.y - random_vall_y ;
+                    tempsPrecedent = tempsActuel;
+                }
+            if(bas_droite == 1)
+                {
+                    dest_rect2.x = dest_rect2.x - random_vall_x ;
+                    dest_rect2.y = dest_rect2.y - random_vall_y ;
+                    tempsPrecedent = tempsActuel;
+                }
+            if(haut_droite == 1)
+                {
+                    dest_rect2.x = dest_rect2.x - random_vall_x ;
+                    dest_rect2.y = dest_rect2.y + random_vall_y ;
+                    tempsPrecedent = tempsActuel;
+                }
+        }
+        else /* Si ça fait moins de 30 ms depuis le dernier tour de boucle, on endort le programme le temps qu'il faut */
+        {
+            SDL_Delay(30 - (tempsActuel - tempsPrecedent));
         }
 
-        else if((dest_rect2.x <= 0 && dest_rect2.y <= y_max && dest_rect2.y >= y_mid) || (dest_rect2.y >= y_max && dest_rect2.x <= x_mid && dest_rect2.x >= 0))
+        if(SDL_QueryTexture(texture2, NULL, NULL, &dest_rect2.w, &dest_rect2.h) != 0)
         {
-            haut_droite = 0;
-            haut_gauche = 0;
-            bas_droite = 0;
-            bas_gauche = 1;
-            random_vall_x = rand ()%2;
-            random_vall_y = rand ()%2 + 1;
+            fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
+            clean_resources(window, renderer, texture, texture2);
+            exit(EXIT_FAILURE);
         }
 
-        else if((dest_rect2.x >= x_max && dest_rect2.y <= y_max && dest_rect2.y >= y_mid) || (dest_rect2.y >= y_max && dest_rect2.x <= x_max && dest_rect2.x >= x_mid))
+        if(SDL_RenderCopy(renderer,texture2,NULL,&dest_rect2) != 0)
         {
-            haut_droite = 0;
-            haut_gauche=0;
-            bas_gauche = 0;
-            bas_droite = 1;
-            random_vall_x = rand ()%2;
-            random_vall_y = rand ()%2 + 1;
+            fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
+            clean_resources(window, renderer, texture, texture2);
+            exit(EXIT_FAILURE);
         }
-
-        else if((dest_rect2.x >= x_max && dest_rect2.y <= y_mid && dest_rect2.y >= 50) || (dest_rect2.y <= 50 && dest_rect2.x <= x_max && dest_rect2.x >= x_mid))
-        {
-            bas_droite = 0;
-            bas_gauche = 0;
-            haut_gauche=0;
-            haut_droite = 1;
-            random_vall_x = rand ()%2;
-            random_vall_y = rand ()%2 + 1;
-        }
-        /////
-        if(haut_gauche == 1)
-            {
-                dest_rect2.x = dest_rect2.x + random_vall_x ;
-                dest_rect2.y = dest_rect2.y + random_vall_y ;
-                tempsPrecedent = tempsActuel;
-            }
-        if(bas_gauche == 1)
-            {
-                dest_rect2.x = dest_rect2.x + random_vall_x ;
-                dest_rect2.y = dest_rect2.y - random_vall_y ;
-                tempsPrecedent = tempsActuel;
-            }
-        if(bas_droite == 1)
-            {
-                dest_rect2.x = dest_rect2.x - random_vall_x ;
-                dest_rect2.y = dest_rect2.y - random_vall_y ;
-                tempsPrecedent = tempsActuel;
-            }
-        if(haut_droite == 1)
-            {
-                dest_rect2.x = dest_rect2.x - random_vall_x ;
-                dest_rect2.y = dest_rect2.y + random_vall_y ;
-                tempsPrecedent = tempsActuel;
-            }
-    }
-    else /* Si ça fait moins de 30 ms depuis le dernier tour de boucle, on endort le programme le temps qu'il faut */
-    {
-        SDL_Delay(30 - (tempsActuel - tempsPrecedent));
-    }
-
-    if(SDL_QueryTexture(texture2, NULL, NULL, &dest_rect2.w, &dest_rect2.h) != 0)
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, texture, texture2);
-        exit(EXIT_FAILURE);
-    }
-
-    if(SDL_RenderCopy(renderer,texture2,NULL,&dest_rect2) != 0)
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        clean_resources(window, renderer, texture, texture2);
-        exit(EXIT_FAILURE);
-    }
 
     //////////////////////////////////////////////////
     SDL_RenderPresent(renderer);
+
     }
 
     clean_resources(window, renderer, texture, texture2);

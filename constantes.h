@@ -9,12 +9,11 @@ Rôle : définit des constantes pour tout le programme
 #ifndef DEF_CONSTANTES
 #define DEF_CONSTANTES
 
-    #define TAILLE_BLOC         34 // Taille d'un bloc (carré) en pixels
-    #define NB_BLOCS_LARGEUR    12
-    #define NB_BLOCS_HAUTEUR    12
-    #define LARGEUR_FENETRE     TAILLE_BLOC * NB_BLOCS_LARGEUR
-    #define HAUTEUR_FENETRE     TAILLE_BLOC * NB_BLOCS_HAUTEUR
+    #define parametre()     char img_fond_1[] = "img/fond.png";\
+                            char img_GoodCharlie_1[] = "img/charlie6.png";\
+                            int speed_charlie_1 = 1;
 
 
 
 #endif
+

@@ -18,7 +18,8 @@ int main(int argc, char* argv[])
     SDL_Renderer *renderer = NULL;
     SDL_Surface *picture = NULL;
     SDL_Texture *texture_menu = NULL;
-    SDL_Rect dest_rect = {0, 50, 512, 384};
+    SDL_Rect dest_rect = {0, 0, 512, 434};
+
 
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0 )
@@ -28,7 +29,7 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    window = SDL_CreateWindow("affichage de fond",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dest_rect.w, dest_rect.h + 50, 0);
+    window = SDL_CreateWindow("affichage de fond",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dest_rect.w, dest_rect.h, 0);
     if(window == NULL)
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
@@ -44,7 +45,7 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-        picture = IMG_Load("img/menu.jpg");
+    picture = IMG_Load("img/menu.jpg");
     if(picture == NULL)
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
@@ -77,7 +78,8 @@ int main(int argc, char* argv[])
                         continuer = 0;
                         break;
                     case SDLK_1: // Demande à jouer
-                        jouer(window, renderer);
+                        choix_niveau(window, renderer);
+
                         break;
                     //case SDLK_KP2: // Demande l'éditeur de niveaux
                        // editeur(ecran);
