@@ -39,6 +39,8 @@
 			<Add library="C:/Program Files (x86)/CodeBlocks/SDL2-2.0.12/i686-w64-mingw32/lib/libSDL2.a" />
 			<Add library="C:/Program Files (x86)/CodeBlocks/SDL2-2.0.12/i686-w64-mingw32/lib/libSDL2_image.dll.a" />
 			<Add library="C:/Program Files (x86)/CodeBlocks/SDL2-2.0.12/i686-w64-mingw32/lib/libSDL2_image.a" />
+			<Add library="C:/Program Files (x86)/CodeBlocks/SDL2-2.0.12/i686-w64-mingw32/lib/libSDL2_ttf.dll.a" />
+			<Add library="C:/Program Files (x86)/CodeBlocks/SDL2-2.0.12/i686-w64-mingw32/lib/libSDL2_ttf.a" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/SDL2-2.0.12/i686-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="constantes.h" />
@@ -49,6 +51,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="menu.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

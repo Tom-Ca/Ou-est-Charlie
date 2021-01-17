@@ -1,11 +1,21 @@
+/*
+main.c
+------------
+
+Par tom et Alexandre , pour projet de où est charlie
+
+Rôle : départ du programme
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+
 #include "constantes.h"
 #include "jeu.h"
+#include "menu.h"
 
 
 
@@ -20,8 +30,6 @@ int main(int argc, char* argv[])
     SDL_Texture *texture_menu = NULL;
     SDL_Rect dest_rect = {0, 0, 512, 434};
 
-
-
     if (SDL_Init(SDL_INIT_VIDEO) != 0 )
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
@@ -29,7 +37,7 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    window = SDL_CreateWindow("affichage de fond",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dest_rect.w, dest_rect.h, 0);
+    window = SDL_CreateWindow("Ou est Charlie ù 2.0",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dest_rect.w, dest_rect.h, 0);
     if(window == NULL)
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
@@ -45,7 +53,7 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    picture = IMG_Load("img/menu.jpg");
+    picture = IMG_Load("img/img_start1.png");
     if(picture == NULL)
     {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
@@ -77,10 +85,10 @@ int main(int argc, char* argv[])
                     case SDLK_ESCAPE: // Veut arrêter le jeu
                         continuer = 0;
                         break;
-                    case SDLK_1: // Demande à jouer
-                        choix_niveau(window, renderer);
-
+                    case SDLK_RETURN : // Demande à jouer
+                        menu(window, renderer);
                         break;
+
                     //case SDLK_KP2: // Demande l'éditeur de niveaux
                        // editeur(ecran);
                        // break;

@@ -368,7 +368,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1609289448 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\main.c
+1609974697 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\main.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -376,8 +376,28 @@
 	<SDL2/SDL_image.h>
 	"constantes.h"
 	"jeu.h"
+	"menu.h"
 
-1609290489 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\jeu.c
+1610138780 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\jeu.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<math.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<time.h>
+	"constantes.h"
+	"jeu.h"
+	"menu.h"
+
+1610010992 c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\constantes.h
+
+1609953550 c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\jeu.h
+
+1609972160 c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\menu.h
+
+1610013807 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\menu.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -389,21 +409,12 @@
 	"jeu.h"
 	"menu.h"
 
-1609289960 c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\constantes.h
+1547322281 c:\program files (x86)\codeblocks\sdl2-2.0.12\i686-w64-mingw32\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
 
-1609082863 c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\jeu.h
+1609706234 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\enemie.c
 
-1609288283 c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\menu.h
-
-1609290543 source:c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\menu.c
-	<stdlib.h>
-	<stdio.h>
-	<string.h>
-	<math.h>
-	<SDL2/SDL.h>
-	<SDL2/SDL_image.h>
-	<time.h>
-	"constantes.h"
-	"jeu.h"
-	"menu.h"
+1609958217 c:\users\tomca\documents\esgi\esgi 2i2\c\projet s1\ou est charlie\rand.h
 
